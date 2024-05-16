@@ -4,16 +4,31 @@
  */
 package com.ecommerce.ecommerce.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+
 /**
  *
  * @author Oghma
  */
+
+@Entity
+@Table(name = "detail_orders")
 public class DetailOrder {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int idDetailOrder;
     private String name;
     private double amount;
     private double price;
     private double total;
+    
+    @OneToOne
+    private Order order;
 
     public DetailOrder() {
     }
@@ -65,6 +80,15 @@ public class DetailOrder {
     public void setTotal(double total) {
         this.total = total;
     }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+    
 
     @Override
     public String toString() {

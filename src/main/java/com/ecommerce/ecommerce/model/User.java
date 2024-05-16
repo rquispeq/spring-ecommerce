@@ -4,11 +4,24 @@
  */
 package com.ecommerce.ecommerce.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import java.util.List;
+
 /**
  *
  * @author Oghma
  */
+
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_user;
     private String name;
     private String username;
@@ -17,6 +30,12 @@ public class User {
     private String phone;
     private String type;
     private String password;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Product> products;
+    
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders;
 
     public User() {
     }

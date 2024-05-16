@@ -4,28 +4,44 @@
  */
 package com.ecommerce.ecommerce.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
 /**
  *
  * @author Oghma
  */
+
+@Entity
+@Table(name = "products")
 public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id_product;
     private String name;
     private String description;
     private String image;
     private double price;
     private int amount;
+    
+    @ManyToOne
+    private User user;
 
     public Product() {
     }
 
-    public Product(int id_product, String name, String description, String image, double price, int amount) {
+    public Product(int id_product, String name, String description, String image, double price, int amount, User user) {
         this.id_product = id_product;
         this.name = name;
         this.description = description;
         this.image = image;
         this.price = price;
         this.amount = amount;
+        this.user = user;
     }
 
     public int getId_product() {
@@ -75,6 +91,15 @@ public class Product {
     public void setAmount(int amount) {
         this.amount = amount;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+    
 
     @Override
     public String toString() {
