@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -29,6 +30,9 @@ public class DetailOrder {
     
     @OneToOne
     private Order order;
+    
+    @ManyToOne
+    private Product product;
 
     public DetailOrder() {
     }
@@ -88,8 +92,15 @@ public class DetailOrder {
     public void setOrder(Order order) {
         this.order = order;
     }
-    
 
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+    
     @Override
     public String toString() {
         return "DetailOrder{" + "idDetailOrder=" + idDetailOrder + ", name=" + name + ", amount=" + amount + ", price=" + price + ", total=" + total + '}';
