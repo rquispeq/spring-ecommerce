@@ -8,11 +8,14 @@ import com.ecommerce.ecommerce.model.Product;
 import com.ecommerce.ecommerce.repository.ProductRepository;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Oghma
  */
+
+@Service
 public class ProductServiceImpl implements ProductService {
     
     @Autowired
