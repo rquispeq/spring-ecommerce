@@ -5,6 +5,7 @@
 package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.model.Product;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -20,4 +21,6 @@ public interface ProductService {
     public void update(Product product);
 
     public void delete(int id);
+    
+    public List<Product> getAll();
 }

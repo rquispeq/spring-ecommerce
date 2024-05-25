@@ -46,13 +46,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="producto:${productos}">
-                        <td th:text="${producto.nombre}"></td>
-                        <td th:text="${producto.descripcion}"></td>
-                        <td th:text="${producto.cantidad}"></td>
-                        <td th:text="${producto.precio}"></td>
-                        <td><a  class="btn btn-warning" th:href="@{productos/edit/{id} (id=${producto.id}) }">Editar</a> </td>
-                        <td><a  class="btn btn-danger" th:href="@{productos/delete/{id} (id=${producto.id}) }">Eliminar</a> </td>
+                    <tr th:each="product:${products}">
+                        <td th:text="${product.name}"></td>
+                        <td th:text="${product.description}"></td>
+                        <td th:text="${product.amount}"></td>
+                        <td th:text="${product.price}"></td>
+                        <td><a  class="btn btn-warning" th:href="@{products/edit/{id} (id=${product.id_product}) }">Editar</a> </td>
+                        <td><a  class="btn btn-danger" th:href="@{products/delete/{id} (id=${product.id_product}) }">Eliminar</a> </td>
                     </tr>       
                 </tbody>
             </table>
