@@ -44,7 +44,7 @@ public class Product {
         this.user = user;
     }
 
-    public int getId_product() {
+    public Integer getId_product() {
         return id_product;
     }
 
