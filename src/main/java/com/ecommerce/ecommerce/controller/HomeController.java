@@ -29,41 +29,67 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/")
 public class HomeController {
-    
+
     private final Logger Log = LoggerFactory.getLogger(HomeController.class);
-    
+
     @Autowired
     private ProductService productService;
-    
-    List<DetailOrder> details = new ArrayList<DetailOrder>();
-    
+
+    List<DetailOrder> cart = new ArrayList<DetailOrder>();
+
     Order order = new Order();
-    
+
     @GetMapping("")
-    public String home(Model model){
+    public String home(Model model) {
         model.addAttribute("products", productService.getAll());
         return "user/home";
     }
-    
+
     @GetMapping("producthome/{idProduct}")
-    public String productHome(@PathVariable Integer idProduct, Model model){
-        
+    public String productHome(@PathVariable Integer idProduct, Model model) {
+
         model.addAttribute("product", productService.get(idProduct).get());
         return "user/producthome";
     }
-    
+
     @PostMapping("/cart")
-    public String addCart(@RequestParam Integer idProduct, @RequestParam Integer amount){
-        
+    public String addCart(@RequestParam Integer idProduct, @RequestParam Integer amount, Model model) {
+
         DetailOrder detailOrder = new DetailOrder();
-        
+
         Product product = new Product();
-        
+        boolean productExistCart = false;
+
         double sumTotal = 0;
-        
-       
+
         Optional<Product> productTarget = productService.get(idProduct);
-        
+        product = productTarget.get();
+
+        for (DetailOrder elementCart : cart) {
+            if (elementCart.getProduct().getId_product() == idProduct) {
+                productExistCart = true;
+                elementCart.setAmount(elementCart.getAmount() + amount);
+                elementCart.setTotal(elementCart.getAmount() * product.getPrice());
+                break;
+            }
+        }
+
+        if (!productExistCart) {
+            detailOrder.setAmount(amount);
+            detailOrder.setProduct(product);
+            detailOrder.setName(product.getName());
+            detailOrder.setPrice(product.getPrice());
+            detailOrder.setTotal(product.getPrice() * amount);
+
+            cart.add(detailOrder);
+        }
+
+        sumTotal = cart.stream().mapToDouble(dt -> dt.getTotal()).sum();
+        order.setTotal(sumTotal);
+
+        model.addAttribute("cart", cart);
+        model.addAttribute("order", order);
+
         return "user/cart";
     }
 }

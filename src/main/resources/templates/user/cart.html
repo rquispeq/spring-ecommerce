@@ -44,7 +44,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
+                                    <tr th:each="cartOrder:${cart}">
+                                        <td th:text="${cartOrder.name}"></td>
+                                        <td th:text="${cartOrder.price}"></td>
+                                        <td th:text="${cartOrder.amount}"></td>
+                                        <td th:text="${cartOrder.total}"></td>
+                                        <td>acciones</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -53,6 +59,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                             <h2 class="card-title">SUBTOTAL</h2>
 
                             <ul class="list-group">
+                                <li><h5 th:text="${order.total}"></h5></li>
+                                <a href="resumeOrder.html">Ver Orden</a>
                             </ul>
                         </div>
 
