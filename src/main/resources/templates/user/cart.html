@@ -9,11 +9,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <!-- Bootstrap core CSS -->
-        <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}"
+        <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
               rel="stylesheet">
 
         <!-- Custom styles for this template -->
-        <link th:href="@{css/heroic-features.css}" rel="stylesheet">
+        <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
     </head>
     <body>
         <div th:include="user/template.html::header"></div>
@@ -49,7 +49,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
                                         <td th:text="${cartOrder.price}"></td>
                                         <td th:text="${cartOrder.amount}"></td>
                                         <td th:text="${cartOrder.total}"></td>
-                                        <td>acciones</td>
+                                        <td><a th:href="@{/delete/cart/{idProduct} (idProduct=${cartOrder.product.id_product}) }" class="btn btn-danger">Eliminar</a></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -60,7 +60,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
 
                             <ul class="list-group">
                                 <li><h5 th:text="${order.total}"></h5></li>
-                                <a href="resumeOrder.html">Ver Orden</a>
+                                <a >Ver Orden</a>
                             </ul>
                         </div>
 
