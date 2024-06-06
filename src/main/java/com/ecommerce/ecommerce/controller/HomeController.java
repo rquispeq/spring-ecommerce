@@ -7,7 +7,9 @@ package com.ecommerce.ecommerce.controller;
 import com.ecommerce.ecommerce.model.DetailOrder;
 import com.ecommerce.ecommerce.model.Order;
 import com.ecommerce.ecommerce.model.Product;
+import com.ecommerce.ecommerce.model.User;
 import com.ecommerce.ecommerce.service.ProductService;
+import com.ecommerce.ecommerce.service.UserService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +36,9 @@ public class HomeController {
 
     @Autowired
     private ProductService productService;
+    
+    @Autowired
+    private UserService userService;
 
     List<DetailOrder> cart = new ArrayList<DetailOrder>();
 
@@ -121,5 +126,16 @@ public class HomeController {
         model.addAttribute("order", order);
         
         return "/user/cart";
+    }
+    
+    @GetMapping("/order")
+    public String order(Model model){
+        
+        User user = userService.findById(1).get();
+        
+        model.addAttribute("cart", cart);
+        model.addAttribute("order", order);
+        model.addAttribute("user", user);
+        return "user/resumeorder";
     }
 }
