@@ -8,6 +8,7 @@ import com.ecommerce.ecommerce.model.Product;
 import com.ecommerce.ecommerce.model.User;
 import com.ecommerce.ecommerce.service.ProductService;
 import com.ecommerce.ecommerce.service.UploadFileService;
+import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 import org.slf4j.Logger;
@@ -51,8 +52,9 @@ public class ProductController {
     }
 
     @PostMapping("/save")
-    private String save(Product product, @RequestParam("img") MultipartFile file) throws IOException {
-        User user = new User(1, "", "", "", "", "", "", "");
+    private String save(Product product, @RequestParam("img") MultipartFile file, HttpSession session) throws IOException {
+        Integer idUser = Integer.parseInt(session.getAttribute("idUser").toString());
+        User user = new User(idUser, "", "", "", "", "", "", "");
         product.setUser(user);
 
         if (product.getId_product() != null) {

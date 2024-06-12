@@ -12,6 +12,7 @@ import com.ecommerce.ecommerce.service.DetailOrderService;
 import com.ecommerce.ecommerce.service.OrderService;
 import com.ecommerce.ecommerce.service.ProductService;
 import com.ecommerce.ecommerce.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,7 +56,7 @@ public class HomeController {
     Order order = new Order();
 
     @GetMapping("")
-    public String home(Model model) {
+    public String home(Model model, HttpSession session) {
         model.addAttribute("products", productService.getAll());
         return "user/home";
     }
@@ -139,9 +140,10 @@ public class HomeController {
     }
 
     @GetMapping("/order")
-    public String order(Model model) {
+    public String order(Model model, HttpSession session) {
 
-        User user = userService.findById(1).get();
+        Integer idUser = Integer.parseInt(session.getAttribute("idUser").toString());
+        User user = userService.findById(idUser).get();
 
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
@@ -150,12 +152,13 @@ public class HomeController {
     }
 
     @GetMapping("/saveOrder")
-    public String saveOrder() {
+    public String saveOrder(HttpSession session) {
         Date created_date = new Date();
         order.setCreated_date(created_date);
         order.setNumber(orderService.generateOrderNumber());
 
-        User user = userService.findById(1).get();
+        Integer idUser = Integer.parseInt(session.getAttribute("idUser").toString());
+        User user = userService.findById(idUser).get();
 
         order.setUser(user);
         orderService.save(order);
@@ -173,9 +176,7 @@ public class HomeController {
     
     @PostMapping("search")
     public String searchProduct(@RequestParam String name, Model model){
-        Log.info("nombre del producto: {}", name);
         List<Product> products = productService.getAll().stream().filter(p -> p.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
-        System.out.println("cant de productos encontrados: " + products.size());
         model.addAttribute("products", products);
         return "user/home";
     }
