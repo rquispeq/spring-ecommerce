@@ -13,4 +13,6 @@ import java.util.Optional;
  */
 public interface UserService {
     Optional<User> findById(Integer id);
+    
+    public User save(User user);
 }
