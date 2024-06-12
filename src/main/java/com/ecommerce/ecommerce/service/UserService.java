@@ -15,4 +15,6 @@ public interface UserService {
     Optional<User> findById(Integer id);
     
     public User save(User user);
+    
+    public Optional<User> findByEmail(String email);
 }
