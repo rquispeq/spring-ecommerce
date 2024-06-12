@@ -48,10 +48,11 @@ public class OrderServiceImpl implements OrderService {
             number++;
         }
 
-        if (number > 10) {
+        if (number < 10) {
             stringNumber = "0000000000" + String.valueOf(number);
         }
 
-        return "";
+        System.out.println("numero de orden generado: " + stringNumber);
+        return stringNumber;
     }
 }

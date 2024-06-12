@@ -8,11 +8,15 @@ import com.ecommerce.ecommerce.model.DetailOrder;
 import com.ecommerce.ecommerce.model.Order;
 import com.ecommerce.ecommerce.model.Product;
 import com.ecommerce.ecommerce.model.User;
+import com.ecommerce.ecommerce.service.DetailOrderService;
+import com.ecommerce.ecommerce.service.OrderService;
 import com.ecommerce.ecommerce.service.ProductService;
 import com.ecommerce.ecommerce.service.UserService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,9 +40,15 @@ public class HomeController {
 
     @Autowired
     private ProductService productService;
-    
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private DetailOrderService detailOrderService;
 
     List<DetailOrder> cart = new ArrayList<DetailOrder>();
 
@@ -97,45 +107,76 @@ public class HomeController {
 
         return "user/cart";
     }
-    
+
     @GetMapping("/delete/cart/{idProduct}")
-    public String removeFromCart(@PathVariable Integer idProduct, Model model){
+    public String removeFromCart(@PathVariable Integer idProduct, Model model) {
         ArrayList<DetailOrder> newCart = new ArrayList<DetailOrder>();
-        
-        for(DetailOrder element: cart){
-            if(element.getProduct().getId_product() != idProduct){
+
+        for (DetailOrder element : cart) {
+            if (element.getProduct().getId_product() != idProduct) {
                 newCart.add(element);
             }
         }
-        
+
         cart = newCart;
-        
+
         double sumTotal = cart.stream().mapToDouble(dt -> dt.getTotal()).sum();
         order.setTotal(sumTotal);
-        
+
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
-        
+
         return "user/cart";
     }
-    
+
     @GetMapping("/getCart")
-    public String getCart(Model model){
-        
+    public String getCart(Model model) {
+
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
-        
+
         return "/user/cart";
     }
-    
+
     @GetMapping("/order")
-    public String order(Model model){
-        
+    public String order(Model model) {
+
         User user = userService.findById(1).get();
-        
+
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
         model.addAttribute("user", user);
         return "user/resumeorder";
+    }
+
+    @GetMapping("/saveOrder")
+    public String saveOrder() {
+        Date created_date = new Date();
+        order.setCreated_date(created_date);
+        order.setNumber(orderService.generateOrderNumber());
+
+        User user = userService.findById(1).get();
+
+        order.setUser(user);
+        orderService.save(order);
+
+        for (DetailOrder dt : cart) {
+            dt.setOrder(order);
+            detailOrderService.save(dt);
+        }
+        
+        order = new Order();
+        cart.clear();
+
+        return "redirect:/";
+    }
+    
+    @PostMapping("search")
+    public String searchProduct(@RequestParam String name, Model model){
+        Log.info("nombre del producto: {}", name);
+        List<Product> products = productService.getAll().stream().filter(p -> p.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
+        System.out.println("cant de productos encontrados: " + products.size());
+        model.addAttribute("products", products);
+        return "user/home";
     }
 }

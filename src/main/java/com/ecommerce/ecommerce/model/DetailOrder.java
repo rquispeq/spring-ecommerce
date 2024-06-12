@@ -8,6 +8,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Index;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -18,7 +19,9 @@ import jakarta.persistence.Table;
  */
 
 @Entity
-@Table(name = "detail_orders")
+@Table(name = "detail_orders", indexes = {
+    @Index(columnList = "order_id_order", unique= false)
+})
 public class DetailOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +31,7 @@ public class DetailOrder {
     private double price;
     private double total;
     
-    @OneToOne
+    @ManyToOne
     private Order order;
     
     @ManyToOne
