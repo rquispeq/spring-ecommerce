@@ -16,7 +16,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
         <link th:href="@{/css/heroic-features.css}" rel="stylesheet">
     </head>
     <body>
-        <div th:include="user/template.html::header"></div>
+        <div th:include="user/template.html::header" th:if="${sesion==null}" >	
+        </div>
+        
+        <div th:include="user/template.html::header-user" th:unless="${sesion==null}">	
+        </div>
         <div class="container">
             <!-- Page Heading/Breadcrumbs -->
             <h1 class="mt-4 mb-3">
