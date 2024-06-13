@@ -4,12 +4,17 @@
  */
 package com.ecommerce.ecommerce.controller;
 
+import com.ecommerce.ecommerce.model.Order;
 import com.ecommerce.ecommerce.model.User;
+import com.ecommerce.ecommerce.service.OrderService;
 import com.ecommerce.ecommerce.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +30,9 @@ public class UserController {
     
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private OrderService orderService;
     
     @GetMapping("/register")
     public String create(){
@@ -59,5 +67,15 @@ public class UserController {
             return "user/notfound";
         }
         
+    }
+    
+    @GetMapping("/shop")
+    public String getShopping(Model model, HttpSession session){
+        Integer idUser = Integer.parseInt(session.getAttribute("idUser").toString()) ;
+        List<Order> orders = orderService.findAll().stream().filter( o -> o.getUser().getId_user() == idUser).collect(Collectors.toList());
+        
+        model.addAttribute("session", session.getAttribute("idUser"));
+        model.addAttribute("orders", orders);
+        return "user/shop";
     }
 }
