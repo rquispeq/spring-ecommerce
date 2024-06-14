@@ -5,7 +5,9 @@
 package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.model.DetailOrder;
+import com.ecommerce.ecommerce.model.Order;
 import com.ecommerce.ecommerce.repository.DetailOrderRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,11 @@ public class DetailOrderServiceImpl implements DetailOrderService {
     @Override
     public DetailOrder save(DetailOrder detailOrder) {
         return detailOrderRepository.save(detailOrder);
+    }
+
+    @Override
+    public List<DetailOrder> getDetailsFromOrder(Order order) {
+        return detailOrderRepository.findByOrder(order);
     }
     
 }

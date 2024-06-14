@@ -5,6 +5,8 @@
 package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.model.DetailOrder;
+import com.ecommerce.ecommerce.model.Order;
+import java.util.List;
 
 /**
  *
@@ -16,4 +18,5 @@ public interface DetailOrderService {
     
     DetailOrder save( DetailOrder detailOrder);
     
+    List<DetailOrder> getDetailsFromOrder(Order order);
 }

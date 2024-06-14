@@ -64,9 +64,10 @@ public class HomeController {
     }
 
     @GetMapping("producthome/{idProduct}")
-    public String productHome(@PathVariable Integer idProduct, Model model) {
+    public String productHome(@PathVariable Integer idProduct, Model model, HttpSession session) {
 
         model.addAttribute("product", productService.get(idProduct).get());
+//        model.addAttribute("session", session.getAttribute("idUser"));
         return "user/producthome";
     }
 
@@ -138,7 +139,7 @@ public class HomeController {
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
         
-        model.addAttribute("sesion", session.getAttribute("iduser"));
+        model.addAttribute("session", session.getAttribute("iduser"));
 
         return "/user/cart";
     }
@@ -152,6 +153,7 @@ public class HomeController {
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
         model.addAttribute("user", user);
+        model.addAttribute("session", session.getAttribute("idUser"));
         return "user/resumeorder";
     }
 
@@ -179,8 +181,9 @@ public class HomeController {
     }
     
     @PostMapping("search")
-    public String searchProduct(@RequestParam String name, Model model){
+    public String searchProduct(@RequestParam String name, Model model, HttpSession session){
         List<Product> products = productService.getAll().stream().filter(p -> p.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
+        model.addAttribute("session", session.getAttribute("idUser"));
         model.addAttribute("products", products);
         return "user/home";
     }
