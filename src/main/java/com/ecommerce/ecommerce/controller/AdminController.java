@@ -5,7 +5,9 @@
 package com.ecommerce.ecommerce.controller;
 
 import com.ecommerce.ecommerce.model.Product;
+import com.ecommerce.ecommerce.model.User;
 import com.ecommerce.ecommerce.service.ProductService;
+import com.ecommerce.ecommerce.service.UserService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +27,9 @@ public class AdminController {
     @Autowired
     private ProductService productService;
     
+    @Autowired
+    private UserService userService;
+    
     @GetMapping("")
     public String home(Model model){
         
@@ -32,5 +37,12 @@ public class AdminController {
         model.addAttribute("products", products);
         
         return "admin/home";
+    }
+    
+    @GetMapping("/users")
+    public String users(Model model){
+        List<User> users = userService.getAll();
+        model.addAttribute("users", users);
+        return "admin/users";
     }
 }
