@@ -96,4 +96,10 @@ public class UserController {
         return "user/detailshop";
     }
     
+    @GetMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("idUser");
+        return "redirect:/";
+    }
+    
 }
