@@ -5,6 +5,7 @@
 package com.ecommerce.ecommerce.service;
 
 import com.ecommerce.ecommerce.model.Order;
+import com.ecommerce.ecommerce.model.User;
 import com.ecommerce.ecommerce.repository.OrderRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,5 +55,10 @@ public class OrderServiceImpl implements OrderService {
 
         System.out.println("numero de orden generado: " + stringNumber);
         return stringNumber;
+    }
+
+    @Override
+    public List<Order> findByUser(User user) {
+        return orderRepository.findByUser(user);
     }
 }

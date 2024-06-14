@@ -72,7 +72,8 @@ public class UserController {
     @GetMapping("/shop")
     public String getShopping(Model model, HttpSession session){
         Integer idUser = Integer.parseInt(session.getAttribute("idUser").toString()) ;
-        List<Order> orders = orderService.findAll().stream().filter( o -> o.getUser().getId_user() == idUser).collect(Collectors.toList());
+        User user = userService.findById(idUser).get();
+        List<Order> orders = orderService.findByUser(user);
         
         model.addAttribute("session", session.getAttribute("idUser"));
         model.addAttribute("orders", orders);
