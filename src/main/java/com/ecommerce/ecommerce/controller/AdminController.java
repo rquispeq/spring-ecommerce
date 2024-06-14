@@ -4,8 +4,10 @@
  */
 package com.ecommerce.ecommerce.controller;
 
+import com.ecommerce.ecommerce.model.Order;
 import com.ecommerce.ecommerce.model.Product;
 import com.ecommerce.ecommerce.model.User;
+import com.ecommerce.ecommerce.service.OrderService;
 import com.ecommerce.ecommerce.service.ProductService;
 import com.ecommerce.ecommerce.service.UserService;
 import java.util.List;
@@ -30,6 +32,9 @@ public class AdminController {
     @Autowired
     private UserService userService;
     
+    @Autowired
+    private OrderService orderService;
+    
     @GetMapping("")
     public String home(Model model){
         
@@ -44,5 +49,12 @@ public class AdminController {
         List<User> users = userService.getAll();
         model.addAttribute("users", users);
         return "admin/users";
+    }
+    
+    @GetMapping("/orders")
+    public String orders(Model model){
+        List<Order> orders = orderService.findAll();
+        model.addAttribute("orders", orders);
+        return "admin/orders";
     }
 }
