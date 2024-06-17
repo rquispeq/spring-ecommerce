@@ -46,7 +46,7 @@ public class SpringBootSecurity {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/css/**", "/vendor/**", "/images/**", "/producthome/{id}", "/user/register", "user/save", "/user/access","/**").permitAll()
+                .requestMatchers("/", "/css/**", "/vendor/**", "/images/**", "/producthome/{id}", "/user/register", "user/save", "/user/access").permitAll()
                 .requestMatchers("/admin/**").hasRole("admin")
                 .requestMatchers("/products/**").hasRole("admin")
                 )
@@ -61,35 +61,5 @@ public class SpringBootSecurity {
         return http.build();
     }
 
-//    @Bean
-//    public UserDetailsService userDetailsService() {
-//        System.out.println("userDetailsService");
-//        UserDetails user
-//                = User.builder()
-//                        .username("user")
-//                        .password(passwordEncoder.encode("password"))
-//                        .roles("USER")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user);
-//    }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-    
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
-//    @Bean
-//    public AuthenticationProvider authenticationProvider() {
-//        System.out.println("auth provider");
-//        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-//        authProvider.setUserDetailsService(userDetailsService());
-//        authProvider.setPasswordEncoder(passwordEncoder);
-//        return authProvider;
-//    }
 }

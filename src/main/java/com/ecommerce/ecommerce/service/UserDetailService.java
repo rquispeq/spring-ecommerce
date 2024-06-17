@@ -29,7 +29,6 @@ public class UserDetailService implements UserDetailsService{
     @Autowired
     private UserService userService;
     
-//    @Autowired
     public PasswordEncoder bcrypt;
     
     @Autowired
@@ -38,7 +37,6 @@ public class UserDetailService implements UserDetailsService{
     @Autowired
     public UserDetailService(UserService userService ){
         this.userService = userService;
-//        this.bcrypt = bcrypt;
     }
     
     private Logger log = LoggerFactory.getLogger(UserDetailService.class);
@@ -52,7 +50,7 @@ public class UserDetailService implements UserDetailsService{
             User user = userO.get();
             System.out.println("User founded in DB: " + user);
             UserDetails u2;
-            u2 = org.springframework.security.core.userdetails.User.builder().username(user.getEmail()).password(user.getPassword()).roles(user.getType()).build();
+            u2 = org.springframework.security.core.userdetails.User.builder().username(user.getName()).password(user.getPassword()).roles(user.getType()).build();
             return u2;
         } else {
             throw new UsernameNotFoundException("Usuario no encontrado");
