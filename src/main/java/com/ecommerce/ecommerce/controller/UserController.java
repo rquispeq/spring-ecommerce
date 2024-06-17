@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +42,9 @@ public class UserController {
     @Autowired
     private DetailOrderService detailOrderService;
     
+    @Autowired
+    private PasswordEncoder passEncode;
+    
     @GetMapping("/register")
     public String create(){
         return "user/register";
@@ -48,19 +53,23 @@ public class UserController {
     @PostMapping("/save")
     public String save(User user){
         user.setType("user");
+        user.setPassword(passEncode.encode(user.getPassword()));
+        user.setEmail(user.getUsername());
         userService.save(user);
         return "redirect:/";
     }
     
     @GetMapping("/login")
     public String login(){
-        
+        System.out.println("login controller");
         return "user/login";
     }
     
-    @PostMapping("access")
+    @GetMapping("access")
     public String access(User user, HttpSession session){
-        Optional<User> userDB = userService.findByEmail(user.getEmail());
+        System.out.println("access controller");
+//        Optional<User> userDB = userService.findByEmail(user.getEmail());
+        Optional<User> userDB = userService.findById(Integer.parseInt(session.getAttribute("idUser").toString()));
         if(userDB.isPresent()){
             session.setAttribute("idUser", userDB.get().getId_user());
             
@@ -81,7 +90,7 @@ public class UserController {
         User user = userService.findById(idUser).get();
         List<Order> orders = orderService.findByUser(user);
         
-        model.addAttribute("session", session.getAttribute("idUser"));
+        model.addAttribute("sessionUser", session.getAttribute("idUser") );
         model.addAttribute("orders", orders);
         return "user/shop";
     }

@@ -53,16 +53,19 @@
           <div class="card-body">
             <h2>Ingresar</h2>
 
+            <div th:if="${param.error}">
+                <p style="color:red;">Invalid username or password.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     
-    <form  th:action="@{/user/access}" method="post">
+    <form  th:action="@{/user/login}" method="post">
       <div class="form-group">
         <label for="email"> Email:  </label>      
-        <input type="email" class="form-control" id="email" name="email" placeholder="Ingrese su email" required autocomplete="off"> 
+        <input type="email" class="form-control" id="username" name="username" placeholder="Ingrese su email" required autocomplete="off"> 
 
       </div>
 

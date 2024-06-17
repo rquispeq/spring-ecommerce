@@ -24,10 +24,11 @@
     <body>
 
         <!-- Navigation -->
-        <div th:include="user/template.html::header" th:if="${session==null}" >	
+        <div th:include="user/template.html::header" th:if="${sessionUser==null}" >	
         </div>
         
-        <div th:include="user/template.html::header-user" th:unless="${session==null}"></div>
+        <div th:include="user/template.html::header-user" th:unless="${sessionUser==null}">	
+        </div>
 
         <!-- Page Content -->
         <div class="container">

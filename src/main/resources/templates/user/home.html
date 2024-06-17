@@ -22,12 +22,12 @@
     </head>
 
     <body>
-
+        
         <!-- Navigation -->
-        <div th:include="user/template.html::header" th:if="${sesion==null}" >	
+        <div th:include="user/template.html::header" th:if="${sessionUser==null}" >	
         </div>
         
-        <div th:include="user/template.html::header-user" th:unless="${sesion==null}">	
+        <div th:include="user/template.html::header-user" th:unless="${sessionUser==null}">	
         </div>
 
         <!--<div th:include="user/template.html::header-user" th:unless="${sesion==null}"> </div>-->
@@ -39,6 +39,7 @@
             <header class="jumbotron my-4">
                 <h1 class="display-3">Bienvenido a Spring Ecommerce 2021</h1>
                 <p class="lead">Tu tienda de productos en Línea</p>
+                <span th:text="${session2}"></span>
             </header>
 
             <!-- Page Features -->

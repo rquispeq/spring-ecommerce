@@ -59,7 +59,16 @@ public class HomeController {
     public String home(Model model, HttpSession session) {
         model.addAttribute("products", productService.getAll());
         
-        model.addAttribute("sesion", session.getAttribute("idUser"));
+//        if(session.getAttribute("idUser") != null){
+            model.addAttribute("sessionUser", session.getAttribute("idUser") );
+
+//        }
+        System.out.println("session pagina principal: " + session.getAttribute("idUser"));
+        if(session.getAttribute("idUser") == null){
+            System.out.println("es null");
+        } else {
+            System.out.println("no es null");
+        }
         return "user/home";
     }
 
@@ -67,7 +76,8 @@ public class HomeController {
     public String productHome(@PathVariable Integer idProduct, Model model, HttpSession session) {
 
         model.addAttribute("product", productService.get(idProduct).get());
-//        model.addAttribute("session", session.getAttribute("idUser"));
+        model.addAttribute("session", session.getAttribute("idUser") == null ? null : session.getAttribute("idUser") );
+        System.out.println("session producto home: " + session.getAttribute("idUser"));
         return "user/producthome";
     }
 
@@ -139,7 +149,7 @@ public class HomeController {
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
         
-        model.addAttribute("session", session.getAttribute("iduser"));
+        model.addAttribute("sessionUser", session.getAttribute("idUser") );
 
         return "/user/cart";
     }
@@ -153,7 +163,7 @@ public class HomeController {
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
         model.addAttribute("user", user);
-        model.addAttribute("session", session.getAttribute("idUser"));
+        model.addAttribute("sessionUser", session.getAttribute("idUser") );
         return "user/resumeorder";
     }
 
@@ -183,7 +193,7 @@ public class HomeController {
     @PostMapping("search")
     public String searchProduct(@RequestParam String name, Model model, HttpSession session){
         List<Product> products = productService.getAll().stream().filter(p -> p.getName().toLowerCase().contains(name.toLowerCase())).collect(Collectors.toList());
-        model.addAttribute("session", session.getAttribute("idUser"));
+        model.addAttribute("sessionUser", session.getAttribute("idUser") );
         model.addAttribute("products", products);
         return "user/home";
     }
