@@ -76,7 +76,7 @@ public class HomeController {
     public String productHome(@PathVariable Integer idProduct, Model model, HttpSession session) {
 
         model.addAttribute("product", productService.get(idProduct).get());
-        model.addAttribute("session", session.getAttribute("idUser") == null ? null : session.getAttribute("idUser") );
+        model.addAttribute("sessionUser", session.getAttribute("idUser") );
         System.out.println("session producto home: " + session.getAttribute("idUser"));
         return "user/producthome";
     }
