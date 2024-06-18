@@ -28,7 +28,7 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 @Configuration
 @EnableWebSecurity
 public class SpringBootSecurity {
-
+    
     private UserDetailService userDetailService;
     
     @Autowired
@@ -36,19 +36,21 @@ public class SpringBootSecurity {
     
     @Autowired
     private AuthenticationFailureHandler customAuthenticationFailureHandler;
-
+    
     public SpringBootSecurity(UserDetailService userDetailService, PasswordEncoder passwordEncoder) {
         this.userDetailService = userDetailService;
         this.passwordEncoder = passwordEncoder;
     }
-
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                .requestMatchers("/", "/css/**", "/vendor/**", "/images/**", "/producthome/{id}", "/user/register", "user/save", "/user/access").permitAll()
+                .requestMatchers("/", "/css/**", "/vendor/**", "/images/**", "/producthome/{id}", "/user/register", "user/save", "/user/access", "/user/logout").permitAll()
                 .requestMatchers("/admin/**").hasRole("admin")
                 .requestMatchers("/products/**").hasRole("admin")
+                .requestMatchers("/user/**").hasRole("user")
+                .requestMatchers("/shop", "detail/{idORder}").hasRole("user")
                 )
                 .formLogin((form) -> form
                 .loginPage("/user/login")
@@ -57,9 +59,8 @@ public class SpringBootSecurity {
                 .permitAll()
                 )
                 .logout((logout) -> logout.permitAll());
-
+        
         return http.build();
     }
-
-
+    
 }
