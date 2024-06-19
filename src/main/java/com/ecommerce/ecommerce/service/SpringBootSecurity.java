@@ -49,7 +49,7 @@ public class SpringBootSecurity {
                 .requestMatchers("/", "/css/**", "/vendor/**", "/images/**", "/producthome/{id}", "/user/register", "user/save", "/user/access", "/user/logout", "/search").permitAll()
                 .requestMatchers("/admin/**").hasRole("admin")
                 .requestMatchers("/products/**").hasRole("admin")
-                .requestMatchers("/user/**", "/shop", "detail/{idORder}", "/cart", "/delete/cart/{idProduct}", "/getCart", "/order", "/saveOrder").hasRole("user")
+                .requestMatchers("/user/**", "/cart", "/delete/cart/{idProduct}", "/getCart", "/order", "/saveOrder").hasRole("user")
                 )
                 .formLogin((form) -> form
                 .loginPage("/user/login")

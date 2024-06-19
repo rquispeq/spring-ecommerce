@@ -82,7 +82,7 @@ public class HomeController {
     }
 
     @PostMapping("/cart")
-    public String addCart(@RequestParam Integer idProduct, @RequestParam Integer amount, Model model) {
+    public String addCart(@RequestParam Integer idProduct, @RequestParam Integer amount, Model model, HttpSession session) {
 
         DetailOrder detailOrder = new DetailOrder();
 
@@ -118,6 +118,7 @@ public class HomeController {
 
         model.addAttribute("cart", cart);
         model.addAttribute("order", order);
+        model.addAttribute("sessionUser", session.getAttribute("idUser") );
 
         return "user/cart";
     }
@@ -151,7 +152,7 @@ public class HomeController {
         
         model.addAttribute("sessionUser", session.getAttribute("idUser") );
 
-        return "/user/cart";
+        return "user/cart";
     }
 
     @GetMapping("/order")
